@@ -1,0 +1,42 @@
+[
+    {
+        "char_name": "Kylo Ren",
+        "char_affiliation": "First Order"
+    },
+    {
+        "char_name": "Rey",
+        "char_affiliation": "Resistance"
+    },
+    {
+        "char_name": "Leia",
+        "char_affiliation": "Resistance"
+    },
+    {
+        "char_name": "Po",
+        "char_affiliation": "Resistance"
+    },
+    {
+        "char_name": "Snoke",
+        "char_affiliation": "First Order"
+    },
+    {
+        "char_name": "Finn",
+        "char_affiliation": "Resistance"
+    },
+    {
+        "char_name": "Hux",
+        "char_affiliation": "Resistance"
+    },
+    {
+        "char_name": "BB8",
+        "char_affiliation": "Resistance"
+    },
+    {
+        "char_name": "Phasma",
+        "char_affiliation": "First Order"
+    },
+    {
+        "char_name": "Luke",
+        "char_affiliation": "Jedi Order"
+    }
+]
