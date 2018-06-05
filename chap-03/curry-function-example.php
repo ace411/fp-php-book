@@ -2,7 +2,7 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-use Chemem\Bingo\Functional\Algorithms as A;
+use function Chemem\Bingo\Functional\Algorithms\{compose, curry};
 
 const wordSplit = 'wordSplit';
 
@@ -26,12 +26,12 @@ function arrToString(array $strings) : string
 }
 
 $func = function (string $txt, string $mTxt) : string {
-    $splitTxt = A\compose(wordSplit, arrToString)($txt);
+    $splitTxt = compose(wordSplit, arrToString)($txt);
 
     return $splitTxt . replaceSpaces($mTxt);
 };
 
-$curryied = A\curry($func);
+$curryied = curry($func);
 
 $first = $curryied('more');
 
