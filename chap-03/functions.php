@@ -20,3 +20,10 @@ function minVal(int $start, int $value)
 {
     return $value < $start ? $value : $start;
 }
+
+const multipleOp = 'multipleOp';
+
+function multipleOp(int $valX, int $valY, string $valZ)
+{
+    return is_numeric($valZ) ? ($valX + $valY) / (int) $valZ : $valX + $valY;
+}
