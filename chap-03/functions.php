@@ -27,3 +27,10 @@ function multipleOp(int $valX, int $valY, string $valZ)
 {
     return is_numeric($valZ) ? ($valX + $valY) / $valZ : $valX + $valY;
 }
+
+const checkActivation = 'checkActivation';
+
+function checkActivation(array $user)
+{
+    return is_bool($user['activated']) ? $user['activated'] : false;
+}
