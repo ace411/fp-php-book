@@ -43,4 +43,6 @@ $fnCaller = new class extends Thread {
     }
 };
 
-$result = $fnCaller(fibGenerate, 1, 200);
+$rangeA = $fnCaller::call(fibGenerate, 1, 10);
+
+$rangeB = $fnCaller::call(fibGenerate, 11, 20);

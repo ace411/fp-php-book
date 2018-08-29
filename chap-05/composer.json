@@ -1,7 +1,7 @@
 {
     "require": {
         "php-amqplib/php-amqplib": "~2.6",
-        "chemem/bingo-functional": "~1.8"
+        "chemem/bingo-functional": "~1"
     },
     "config": {
         "process-timeout": 0
