@@ -11,7 +11,7 @@ $channel = $connection->channel();
 
 $channel->queue_declare('hello', false, false, false, false);
 
-$msg = new AMQPMessage(json_encode([1, 200]));
+$msg = new AMQPMessage(json_encode([1, 10]));
 
 $channel->basic_publish($msg, '', 'hello');
 
