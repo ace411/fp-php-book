@@ -1,6 +1,7 @@
 {
     "require": {
         "chemem/bingo-functional": "~1",
-        "giorgiosironi/eris": "~0"
+        "giorgiosironi/eris": "~0",
+        "phpunit/phpunit": "~6"
     }
 }
