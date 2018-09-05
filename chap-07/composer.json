@@ -2,6 +2,7 @@
     "require": {
         "chemem/bingo-functional": "~1",
         "giorgiosironi/eris": "~0",
+        "functional-php/pattern-matching": "~0",
         "phpunit/phpunit": "~6"
     }
 }
