@@ -1,6 +1,5 @@
 {
     "require": {
-        "chemem/bingo-functional": "~1",
-        "widmogrod/php-functional": "~5"
+        "chemem/bingo-functional": "~1"
     }
 }
