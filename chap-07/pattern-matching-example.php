@@ -49,4 +49,4 @@ function resolvePath(string $path) : string
     return $result($path);
 }
 
-echo resolvePath('ringer');
+echo resolvePath('posts');
