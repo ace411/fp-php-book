@@ -3,7 +3,6 @@
 require __DIR__ . '/vendor/autoload.php';
 
 use Chemem\Bingo\Functional\Algorithms as A;
-use Chemem\Bingo\Functional\Functors\Monads\Reader;
 
 const POSTS = [
     [
