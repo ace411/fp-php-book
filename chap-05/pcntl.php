@@ -12,7 +12,7 @@ function fib(int $val)
     return $val < 2 ? $val : fib($val - 1) + fib($val - 2);
 }
 
-function execTask($arg)
+function execTask($arg) : IO
 {
     return IO::of($arg)
         ->map(function ($arg) {
@@ -23,7 +23,7 @@ function execTask($arg)
         });
 }
 
-function otherTask()
+function otherTask() : IO
 {
     return IO::of(function () {
         return function ($val) {
