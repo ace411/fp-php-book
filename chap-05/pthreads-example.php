@@ -2,7 +2,7 @@
 
 require 'fibonacci.php';
 
-$fnCaller = new class extends Thread {
+class ExecFunc extends Thread {
     private $method;
 
     private $params;
@@ -43,6 +43,10 @@ $fnCaller = new class extends Thread {
     }
 };
 
-$rangeA = $fnCaller::call(fibGenerate, 1, 10);
+$rangeA = ExecFunc::call(fibGenerate, 1, 10);
 
-$rangeB = $fnCaller::call(fibGenerate, 11, 20);
+$rangeB = ExecFunc::call(fibGenerate, 11, 20);
+
+printf('%s', 'Range 1-10: ' . $rangeA . \PHP_EOL);
+
+printf('%s', 'Range 11-20: ' . $rangeB . \PHP_EOL);
