@@ -1,0 +1,15 @@
+{
+    "require": {
+        "chemem/bingo-functional": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Project\\": "src/"
+        },
+        "files": [
+            "src/constants.php",
+            "src/patterns.php",
+            "src/actions.php"
+        ]
+    }
+}
