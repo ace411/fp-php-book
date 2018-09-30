@@ -42,6 +42,10 @@ function toAction(string $cmd) : IO
             '["all"]' => function () {
                 return bind(formatOutput, connect());
             },
+            '["exit"]' => function () {
+                mcompose(IO\_print, IO\IO)(IO\IO(IO\IO('Thanks for using the REPL')));
+                exit();
+            },
             '_' => function () {
                 return IO\IO('Unrecognized input');
             }
