@@ -13,7 +13,7 @@ $logger = function () : Writer {
         ->bind(function ($val) {
             return Writer\writer(null, 'add 2')
                 ->map(function ($result) use ($val) {
-                    return $result + ($val * 2);
+                    return $result + ($val + 2);
                 });
         });
 };
