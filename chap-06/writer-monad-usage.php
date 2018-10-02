@@ -8,37 +8,16 @@ use Chemem\Bingo\Functional\{
     Functors\Monads\Writer
 };
 
-const FILES = [
-    'person.jpg',
-    'landscape.png',
-    'animal.jpg'
-];
+$logger = function () : Writer {
+    return Writer\writer(5, 'put 5 in Writer')
+        ->bind(function ($val) {
+            return Writer\writer(null, 'add 2')
+                ->map(function ($result) use ($val) {
+                    return $result + ($val * 2);
+                });
+        });
+};
 
-function write(string $file, string $data) : IO
-{
-    return IO::of($file)
-        ->map(A\partialRight('file_put_contents', $data));
-}
+$output = Writer\execWriter($logger());
 
-list($result, $log) = Writer::of(FILES, 'Added image list')
-    ->flatMap(
-        function (array $files) {
-            $jpg = A\filter(function (string $file) { return in_array('jpg', explode('.', $file)); }, $files);
-
-            return A\map(
-                function (string $file) {
-                    $rename = A\compose(
-                        A\partialLeft('explode', '.'),
-                        A\partialRight(A\fill, 1, 1, '_resized.jpg'),
-                        A\partialLeft('implode', '')
-                    );
-
-                    return $rename($file);
-                },
-                $jpg
-            );
-        }, 
-        'Resized jpg files'
-    );
-
-write(A\concat('/', __DIR__, 'log.txt'), $log);
+print_r($output);
