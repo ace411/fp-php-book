@@ -2,25 +2,15 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
+use Chemem\Bingo\Functional\Functors\Monads as M;
 use Chemem\Bingo\Functional\Functors\Monads\IO;
 use function Chemem\Bingo\Functional\Algorithms\compose;
 
-const fileInit = 'fileInit';
+$read = M\mcompose(IO\IO, IO\readFile);
 
-function fileInit(string $file) : IO
-{
-    return IO::of($file);
-}
+$fileContents = M\bind(function ($contents) {
+    $res = compose('strtoupper', IO\IO);
+    return $res($contents);
+}, $read(IO\IO('file.txt')));
 
-const read = 'read';
-
-function read(IO $file) : IO
-{
-    return $file
-        ->map('file_get_contents')
-        ->map('strtoupper');
-}
-
-$read = compose(fileInit, read);
-
-var_dump($read('file.txt'));
+print_r($fileContents->exec());
