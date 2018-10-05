@@ -16,5 +16,3 @@ function addRecursive(int $num, int $count = 0, array $acc = [], bool $continue 
 }
 
 $add = trampoline('addRecursive');
-
-var_dump($add(5));
