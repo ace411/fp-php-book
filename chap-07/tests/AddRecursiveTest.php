@@ -8,11 +8,14 @@ class AddRecursiveTest extends PHPUnit\Framework\TestCase
 {
     use Eris\TestTrait;
 
-    public function testAddRecursiveFunction()
+    public function testAddRecursiveFunctionGeneratesArrayOutputBasedOnInteger()
     {
-        $this->forAll()
+        $this->forAll(Generator\choose(1, 100))
             ->then(function (int $count) {
+                $add = addRecursive($count);
 
+                $this->assertInternalType('array', $add);
+                $this->assertTrue(count($add) == $count + 1);
             });
     }
 }
