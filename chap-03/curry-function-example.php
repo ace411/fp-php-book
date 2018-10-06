@@ -25,15 +25,13 @@ function arrToString(array $strings) : string
     return implode('_', $strings);
 }
 
-$func = function (string $txt, string $mTxt) : string {
+$curried = curry(function (string $txt, string $mTxt) : string {
     $splitTxt = compose(wordSplit, arrToString)($txt);
 
     return $splitTxt . replaceSpaces($mTxt);
-};
+});
 
-$curryied = curry($func);
-
-$first = $curryied('more');
+$first = $curried('more');
 
 $final = $first('functional programming');
 
