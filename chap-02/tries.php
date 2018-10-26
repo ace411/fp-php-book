@@ -4,46 +4,37 @@ require __DIR__ . '/vendor/autoload.php';
 
 use Tries\Trie;
 use Chemem\Bingo\Functional\Functors\Monads\IO;
+use Chemem\Bingo\Functional\Functors\Monads as M;
 use function Chemem\Bingo\Functional\Algorithms\partialRight;
+use function Chemem\Bingo\Functional\Algorithms\compose;
+use function Chemem\Bingo\Functional\Algorithms\partial;
 
-function readFromFile(string $file) : IO
+function createTrie(array $json, int $init = 0) : Trie
 {
-    $readFromFile = IO::of($file);
+    $trie = new Trie;
+    $valCount = count($json);
 
-    return $readFromFile
-        ->map('file_get_contents')
-        ->map(partialRight('json_decode', true));
+    $add = function (int $init = 0) use (&$add, $json, $valCount, $trie) {
+        if ($init >= $valCount) {
+            return $trie;
+        }
+
+        $trie->add($json[$init]['char_name'], $json[$init]);
+        return $add($init + 1);
+    };
+    return $add();
 }
 
-function createTrie(IO $fileReader) : Trie
+function searchTrie(string $entry) : IO
 {
-    return $fileReader
-        ->flatMap(
-            function (array $contents) {
-                $trie = new Trie();
+    $result = M\mcompose(function (string $contents) use ($entry) {
+        $res = compose(partialRight('json_decode', true), 'createTrie', function ($trie) use ($entry) {
+            return $trie->search($entry);
+        });
+        return IO\IO($res($contents));
+    }, IO\readFile);
 
-                $addItem = function (int $init = 0) use ($contents, $trie, &$addItem) {
-                    $valCount = count($contents);
-
-                    if ($init >= $valCount) {
-                        return $trie;
-                    }
-
-                    $trie->add(
-                        $contents[$init]['char_name'],
-                        $contents[$init]
-                    );
-
-                    return $addItem($init + 1);
-                };
-
-                return $addItem();
-            }
-        );
+    return $result(IO\IO(__DIR__ . '/starwars_characters.json'));
 }
 
-$trie = createTrie(
-    readFromFile(__DIR__ . '/starwars_characters.json')
-);
-
-var_dump($trie->search('Luke'));
+print_r(searchTrie('Luke')->exec());
