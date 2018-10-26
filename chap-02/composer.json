@@ -1,8 +1,9 @@
 {
+    "minimum-stability": "dev",
     "require": {
         "qaribou/immutable.php": "~1.1.0",
         "markbaker/tries": "dev-master",
-        "chemem/bingo-functional": "~1.7.2",
+        "chemem/bingo-functional": "~1",
         "phunkie/phunkie": "~0.10.2"
     }
 }
