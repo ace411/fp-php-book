@@ -1,5 +1,5 @@
 {
-    "require": {
-        "chemem/bingo-functional": "~1"
-    }
+  "require": {
+    "chemem/bingo-functional": "~1"
+  }
 }

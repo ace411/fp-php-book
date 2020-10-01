@@ -6,6 +6,6 @@ require __DIR__ . '/state.php';
 
 use function Chemem\Bingo\Functional\Algorithms\map;
 
-$result = map(factorial, NUMBERS);
+$result = map('factorial', NUMBERS);
 
 print_r($result);

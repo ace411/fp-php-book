@@ -6,16 +6,16 @@ Refer to the third chapter, Complementary Functional Programming Basics for more
 
 - **Composing Functions**
 
-    - **Traditional Function Composition**
+  - **Traditional Function Composition**
 
-    - **Point-free Function Composition**
+  - **Point-free Function Composition**
 
 - **Currying**
 
 - **Partial Application**
 
-- **Map**
+- **Map, Filter, and Fold**
 
-- **Reduce**
+  - **Transducers**
 
-- **Fold**
+- **Helper Functions**

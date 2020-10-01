@@ -1,12 +1,16 @@
 <?php
 
 require __DIR__ . '/vendor/autoload.php';
-require __DIR__ . '/functions.php';
 
 use function Chemem\Bingo\Functional\Algorithms\partial;
 
-$partial = partial(multipleOp, 12);
+function multipleOp(int $x, int $y, string $z): int
+{
+  return is_numeric($z) ? ($x + $y) / $z : $x + $y;
+}
 
-$final = $partial(13, '5');
+$partial  = partial('multipleOp', 12);
+
+$final    = $partial(13, '5');
 
 echo $final;

@@ -4,31 +4,37 @@ require __DIR__ . '/vendor/autoload.php';
 require __DIR__ . '/functions.php';
 require __DIR__ . '/state.php';
 
-use function Chemem\Bingo\Functional\Algorithms\{any, every, filter, extend, identity};
+use function Chemem\Bingo\Functional\Algorithms\{
+  any,
+  map,
+  every,
+  filter,
+  extend,
+  identity
+};
 
-const generateKey = 'generateKey';
-
-function generateKey(array $user)
+function checkActivation(array $user)
 {
-    return extend($user, ['key' => md5($user['activated'])]);
+  return is_bool($user['activated']) ? $user['activated'] : false;
 }
 
-function someActivated(array $users)
+function generateKey(array $user): array
 {
-    $result = any($users, checkActivation) ? 
-        filter(checkActivation, $users) : 
-        identity([]);
-
-    return $result;
+  return extend($user, ['key' => md5($user['activated'])]);
 }
 
-function allActivated(array $users)
+function someActivated(array $users): array
 {
-    $result = every($users, checkActivation) ?
-        map(generateKey, $users) :
-        identity([]);
+  return any($users, 'checkActivation') ?
+    filter('checkActivation', $users) :
+    identity([]);
+}
 
-    return $result;
+function allActivated(array $users): array
+{
+  return every($users, 'checkActivation') ?
+    map('generateKey', $users) :
+    identity([]);
 }
 
 print_r(someActivated(USERS));
