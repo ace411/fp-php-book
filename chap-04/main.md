@@ -8,10 +8,16 @@ Refer to the fourth chapter, Error Handling in Functional Programming.
 
 - **Working Without Exceptions**
 
-    - **Callbacks**
+  - **Callbacks**
 
-    - **Default Values**
+  - **PHP Error Messages**
 
-    - **PHP Error Messages**
+  - **Default Values**
 
-    - **Union Types**
+  - **Sum and Union Types**
+
+  - **The Maybe Monad**
+
+  - **The Either Monad**
+
+  - **The Railway Pattern**

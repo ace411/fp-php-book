@@ -2,20 +2,20 @@
 
 function throwSomeException()
 {
-    throw new Exception('I am an exception');
+  throw new Exception('I am an exception');
 }
 
-function add(int $valX) 
+function add(int $valX)
 {
-    $valY = throwSomeException();
+  $valY = throwSomeException();
 
-    try {
-        $result = $valX + $valY;
-    } catch (Exception $exception) {
-        $result = 30;
-    }
+  try {
+    $result = $valX + $valY;
+  } catch (Exception $exception) {
+    $result = 30;
+  }
 
-    return $result;
+  return $result;
 }
 
 add(12);

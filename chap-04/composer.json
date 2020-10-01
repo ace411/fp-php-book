@@ -1,0 +1,6 @@
+{
+  "require": {
+    "chemem/bingo-functional": "~1",
+    "react/promise": "~2"
+  }
+}
