@@ -1,9 +1,10 @@
 <?php
 
-class Configure {
-    const USERNAME = 'chemem';
+class Configure
+{
+  const USERNAME = 'chemem';
 
-    private const EMAIL = 'lochbm@gmail.com';
+  private const EMAIL = 'lochbm@gmail.com';
 
-    //...constructor and other methods
+  //...constructor and other methods
 }

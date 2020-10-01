@@ -1,8 +1,8 @@
 {
-    "require": {
-        "qaribou/immutable.php": "~1.1.0",
-        "markbaker/tries": "dev-master",
-        "chemem/bingo-functional": "~1.7.2",
-        "phunkie/phunkie": "~0.10.2"
-    }
+  "require": {
+    "ext-php_trie": "~0",
+    "qaribou/immutable.php": "~1",
+    "chemem/bingo-functional": "~1",
+    "phunkie/phunkie": "~0"
+  }
 }

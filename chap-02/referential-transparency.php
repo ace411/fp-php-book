@@ -1,9 +1,5 @@
 <?php
 
-$insertUnderscores = function (string $text) : string {
-    $withUnderscore = implode('_', explode(' ', $text));
-
-    return $withUnderscore;
-};
+$insertUnderscores = fn (string $text): string => implode('_', explode(' ', $text));
 
 var_dump($insertUnderscores('hello world') == 'hello_world');
