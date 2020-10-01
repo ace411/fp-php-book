@@ -8,11 +8,11 @@ define('FACT_KEYS', ['1!', '2!', '3!', '4!', '5!']);
 
 define('USERS', [
   [
-    'name' => 'chemem', 
-    'activated' => true
+    'name'      => 'chemem',
+    'activated' => true,
   ],
   [
-    'name' => 'bruno', 
-    'activated' => false
-  ]
+    'name'      => 'bruno',
+    'activated' => false,
+  ],
 ]);
