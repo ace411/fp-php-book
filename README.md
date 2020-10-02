@@ -6,7 +6,7 @@
     </a>
 </p>
 
-Included in this repository are practice files excerpts of which feature in the book, Functional Programming in PHP - A primer. Please use the files to further your understanding of the concepts put forward in the book.
+Included in this repository are the elucidatory practice files - excerpts from the version of the book, Functional Programming in PHP - A primer, released on 2020-10-dd. Please use the files to further your understanding of the concepts put forward in the book.
 
 Please endeavor to get yourself a [copy](https://leanpub.com/functionalprogramminginphp) for only \$9.99.
 
