@@ -4,29 +4,26 @@ require __DIR__ . '/vendor/autoload.php';
 
 use Chemem\Bingo\Functional\Functors\Monads\IO;
 use function Chemem\Bingo\Functional\Functors\Monads\{bind, mcompose};
-use function Chemem\Bingo\Functional\Algorithms\{compose, constantFunction as cf};
 
 /**
- * 
+ *
  * main function
  * core REPL function
- * 
+ *
  * main :: IO ()
- * 
+ *
  * @return object IO
  */
 
-function main()
+function main(): IO
 {
-    $action = compose(
-        cf(Project\replPrompt()),
-        cf(mcompose(function ($fgets) {
-            $repl = compose($fgets, Project\toAction, IO\IO);
-            return $repl(\STDIN);
-        }, IO\putStr)(IO\IO(null)))
-    );
+  $repl = mcompose(function (string $cmd): IO {
+    return bind(IO\putStr, Project\toAction($cmd));
+  }, IO\getLine, IO\putStr);
 
-    return $action(null)->exec();
+  return $repl(IO\IO(Project\CONSOLE_PROMPT));
 }
 
-while (true) IO\_print(main());
+while (true) {
+  main()->exec();
+}

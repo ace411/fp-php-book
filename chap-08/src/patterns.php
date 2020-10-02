@@ -1,55 +1,92 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Project;
 
-use \Chemem\Bingo\Functional\Algorithms as A;
-use \Chemem\Bingo\Functional\Functors\Monads\IO;
-use function \Chemem\Bingo\Functional\PatternMatching\patternMatch;
-use function \Chemem\Bingo\Functional\Functors\Monads\{bind, mcompose};
+use \Chemem\Bingo\Functional\{
+  Algorithms as f,
+  Functors\Monads\IO,
+  Functors\Monads as m,
+  PatternMatching as p
+};
+
+const toAction = __NAMESPACE__ . '\\toAction';
 
 /**
- * 
+ *
  * toAction function
  * Transforms command into an action
- * 
+ *
  * toAction :: String -> IO ()
- * 
+ *
  * @param string $cmd
  * @return object IO
  */
 
-const toAction = 'Project\\toAction';
-
-function toAction(string $cmd) : IO
+function toAction(string $cmd): IO
 {
-    return patternMatch(
-        [
-            '["add", name, phone]' => function (string $name, string $phone) {
-                return bind(function ($result) use ($name) {
-                    $json = A\compose(A\partial(A\concat, ' ', $name), IO\IO);
-                    return $json($result ? 'added' : 'not added');
-                }, create($name, $phone));
-            },
-            '["search", name]' => function (string $name) {
-                return bind(formatOutput, search($name));
-            },
-            '["delete", name]' => function (string $name) {
-                return bind(function ($result) use ($name) {
-                    $json = A\compose(A\partial(A\concat, ' ', $name), IO\IO);
-                    return $json($result ? 'deleted' : 'not deleted');
-                }, delete($name));
-            },
-            '["all"]' => function () {
-                return bind(formatOutput, connect());
-            },
-            '["exit"]' => function () {
-                mcompose(IO\_print, IO\IO)(IO\IO(IO\IO('Thanks for using the REPL')));
-                exit();
-            },
-            '_' => function () {
-                return IO\IO('Unrecognized input');
-            }
-        ],
-        explode(' ', $cmd)
-    );
+  return p\patternMatch([
+    '["add", name, phone]'  => fn (string $name, string $phone) => (
+      registryAction(create, $name, $phone)
+    ),
+    '["search", name]'      => fn (string $name) => (
+      showRegistryData(search, $name)
+    ),
+    '["delete", name]'      => fn (string $name) => (
+      registryAction(delete, $name)
+    ),
+    '["exit"]'              => fn () => (
+      m\bind(
+        fn ($_) => IO\IO(fn () => exit()),
+        IO\_print(IO\IO('Thanks for using the phonebook'))
+      )
+    ),
+    '["all"]'               => fn () => showRegistryData(readRegistry),
+    '_'                     => fn () => IO\IO('Unrecognized input'),
+  ], explode(' ', $cmd));
+}
+
+const registryAction = __NAMESPACE__ . '\\registryAction';
+
+/**
+ * registryAction
+ * produces apt message for registry write operations
+ * 
+ * registryAction :: (a -> IO) -> a -> IO
+ * 
+ * @param callable $action
+ * @param mixed $args...
+ * @return IO
+ */
+function registryAction(callable $action, ...$args): IO
+{
+  $action = m\mcompose(
+    fn (bool $res) => IO\IO(f\concat(' ', 'Action', ($res ? 'completed' : 'not completed'))),
+    fn ($args)     => $action(...$args)
+  );
+
+  return $action(IO\IO($args));
+}
+
+const showRegistryData = __NAMESPACE__ . '\\showRegistryData';
+
+/**
+ * showRegistryData
+ * conveys registry data produced by registry read operations
+ * 
+ * showRegistryData :: (a -> IO) -> a -> IO
+ * 
+ * @param callable $action
+ * @param mixed $args...
+ * @return IO 
+ */
+function showRegistryData(callable $action, ...$args): IO
+{
+  $show = m\mcompose(
+    fn ($data) => IO\IO(formatOutput($data)),
+    fn ($args) => $action(...$args)
+  );
+
+  return $show(IO\IO($args));
 }

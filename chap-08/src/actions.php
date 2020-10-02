@@ -1,201 +1,215 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Project;
 
-use \Chemem\Bingo\Functional\Algorithms as A;
-use \Chemem\Bingo\Functional\Functors\Monads\{IO, State};
-use function \Chemem\Bingo\Functional\Functors\Monads\{bind, mcompose};
+use \Chemem\Bingo\Functional\{
+  Algorithms as f, 
+  Functors\Monads\IO,
+  Functors\Monads as m
+};
+
+const writeRegistry = __NAMESPACE__ . '\\writeRegistry';
 
 /**
- * 
- * execAction function
+ *
+ * writeRegistry function
  * Execute a function that writes to the registry
- * 
- * execAction :: ([a] -> b) -> IO ()
- * 
- * @param callable $action 
+ *
+ * writeRegistry :: ([a] -> b) -> IO ()
+ *
+ * @param callable $action
  * @return object IO
  */
 
-function execAction(callable $action) : IO
+function writeRegistry(callable $action): IO
 {
-    $write = A\partialRight(IO\writeFile, bind(function (array $contents) use ($action) {
-        return IO\IO($action($contents));
-    }, connect())->exec());
-
-    return $write(registry());
+  $write = f\partialRight(
+		IO\writeFile,
+		m\bind(
+      fn (array $contents) => IO\IO(fn () => $action($contents)), 
+      readRegistry()
+    )->exec()
+	);
+		
+  return $write(registry());
 }
 
+const create = __NAMESPACE__ . '\\create';
+
 /**
- * 
+ *
  * create function
  * Add a record to the registry
- * 
+ *
  * create :: String -> String -> IO ()
- * 
+ *
  * @param string $name
  * @param string $phone
  * @return object IO
  */
 
-function create(string $name, string $phone) : IO
+function create(string $name, string $phone): IO
 {
-    $action = A\compose(
-        A\partialRight(A\extend, [['name' => $name, 'phone' => formatPhone($phone)]]),
-        A\partialRight('json_encode', \JSON_PRETTY_PRINT)
-    );    
-    return execAction($action);
+  $action = f\compose(f\partialRight(f\extend, [
+		[
+			'name'	 => $name,
+			'phone' => formatPhone($phone),
+		],
+	]), f\partialRight('json_encode', JSON_PRETTY_PRINT));
+		
+  return writeRegistry($action);
 }
 
+const formatPhone = __NAMESPACE__ . '\\formatPhone';
+
 /**
- * 
+ *
  * formatPhone function
  * format telephone numbers to match the format +(code) (digits)
- * 
+ *
  * formatPhone :: String -> String
- * 
+ *
  * @param string $phone
  * @return string
  */
 
-function formatPhone(string $phone) : string
+function formatPhone(string $phone): string
 {
-    $format = A\compose(
-        A\partial('str_replace', ' ', ''),
-        A\partialRight('substr', 9, 0),
-        A\partial(A\concat, ' ', '+256')
-    );
-
-    return $format($phone);
+  $format = f\compose(
+		f\partial('str_replace', ' ', ''),
+		f\partialRight('substr', 9, 0),
+		f\partial(f\concat, ' ', '+256')
+	);
+	
+  return $format($phone);
 }
 
+const delete = __NAMESPACE__ . '\\delete';
+
 /**
- * 
+ *
  * delete function
  * Delete an entry from the registry
- * 
+ *
  * delete :: String -> IO ()
- * 
+ *
  * @param string $name
  * @return object IO
  */
 
-function delete(string $name) : IO
+function delete(string $name): IO
 {
-    $action = A\compose(
-        A\partial(A\reject, function ($entry) use ($name) {
-            return $entry['name'] == $name;
-        }),
-        'array_values',
-        A\partialRight('json_encode', \JSON_PRETTY_PRINT)
-    );
-    return execAction($action);
+  $action = f\compose(
+		f\partial(f\reject, fn ($entry): bool => $entry['name'] == $name),
+		f\identity('array_values'),
+		f\partialRight('json_encode', JSON_PRETTY_PRINT)
+	);
+    
+  return writeRegistry($action);
 }
 
+const search = __NAMESPACE__ . '\\search';
+
 /**
- * 
+ *
  * search function
  * Search the registry for an entry associated with a particular name
- * 
+ *
  * search :: String -> IO ()
- * 
+ *
  * @param string $name
  * @return object IO
  */
 
-function search(string $name) : IO
+function search(string $name): IO
 {
-    $action = A\compose(
-        A\partial(A\filter, function ($entry) use ($name) {
-            return preg_match(A\concat('', '/(', $name, ')+/', 'im'), $entry['name']);
-        }),
-        'array_values'
-    );
-    return bind(function ($data) use ($action) {
-        return IO\IO($action($data));
-    }, connect());
+  $search = f\compose(f\partial(f\filter, fn ($entry) => (
+    preg_match(f\concat('', '/(', $name, ')+/', 'im'), $entry['name'])
+  )), 'array_values');
+    
+  return m\bind(fn ($data) => IO\IO($search($data)), readRegistry());
 }
 
+const readRegistry = __NAMESPACE__ . '\\readRegistry';
+
 /**
- * 
- * connect function
+ *
+ * readRegistry function
  * Read registry file contents
- * 
- * connect :: IO ()
- * 
+ *
+ * readRegistry :: IO ()
+ *
  * @return object IO
  */
-
-function connect() : IO
+function readRegistry(): IO
 {
-    $read = mcompose(function ($contents) {
-        $read = A\compose(A\partialRight('json_decode', true), IO\IO);
-        return $read($contents);
-    }, IO\readFile);
+  $read = m\mcompose(function ($contents) {
+    $read = f\compose(f\partialRight('json_decode', true), IO\IO);
+		
+    return $read($contents);
+  }, IO\readFile);
     
-    return $read(IO\IO(registry()));
+  return $read(IO\IO(registry()));
 }
 
+const formatOutput = __NAMESPACE__ . '\\formatOutput';
+
 /**
- * 
+ *
  * formatOutput function
  * Beautifies console list display
- * 
- * formatOutput :: [a] -> IO String
- * 
+ *
+ * formatOutput :: [a] -> String
+ *
  * @param array $contents
- * @return object IO
+ * @return string
  */
-
-const formatOutput = 'Project\\formatOutput';
-
-function formatOutput(array $contents) : IO
+function formatOutput(array $contents): string
 {
-    $format = A\compose(
-        A\partialRight('json_encode', \JSON_PRETTY_PRINT),
-        A\partial('str_replace', '{', '-------'),
-        A\partial('str_replace', '}', '-------'),
-        A\partial('str_replace', '"', ''),
-        A\partial('str_replace', ',', ''),
-        A\partial('str_replace', '[', ''),
-        A\partial('str_replace', ']', ''),
-        IO\IO
-    );
+  $out = f\compose(
+    f\partial(f\map, 'array_values'),
+    f\partial(printTable, ['name', 'phone'])
+  );
 
-    return $format($contents);
+  return $out($contents);
 }
 
+const printTable = __NAMESPACE__ . '\\printTable';
+
 /**
+ * printTable function
+ * Prints data in a tabular format
  * 
- * registry function
- * Outputs registry file path
+ * printTable :: Array -> Array -> String
  * 
- * registry :: String
+ * @param array $header
+ * @param array $data
  * 
  * @return string
  */
-
-function registry() : string
+function printTable(array $header, array $data): string
 {
-    return A\concat('/', dirname(__DIR__), REGISTRY_FILE);
+  return \Mmarica\DisplayTable::create()
+    ->headerRow($header)
+    ->dataRows($data)
+    ->toText()
+    ->generate();
 }
 
+const registry = __NAMESPACE__ . '\\registry';
+
 /**
- * 
- * replPrompt function
- * Output REPL prompt directive (>>>)
- * 
- * replPrompt :: IO Int
- * 
- * @return object IO
+ *
+ * registry function
+ * Outputs registry file path
+ *
+ * registry :: String
+ *
+ * @return string
  */
-
-function replPrompt() : IO
+function registry(): string
 {
-    $prompt = mcompose(function ($prompt) {
-        $action = A\compose(A\partial('printf', '%s'), IO\IO);
-        return $action($prompt);
-    }, IO\IO);
-
-    return $prompt(IO\IO(CONSOLE_PROMPT));
+  return f\filePath(0, REGISTRY_FILE);
 }
