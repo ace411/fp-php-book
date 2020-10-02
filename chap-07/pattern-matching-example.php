@@ -2,51 +2,54 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-use Chemem\Bingo\Functional\Algorithms as A;
+use Chemem\Bingo\Functional\{
+  Algorithms as f,
+  PatternMatching as p
+};
 
 const POSTS = [
-    [
-        'id' => 1,
-        'title' => 'Functional Programming Rocks',
-        'text' => 'fp is amazing.'
-    ],
-    [
-        'id' => 2,
-        'title' => 'Cannot wait for Star Wars Ep9',
-        'text' => 'Kylo Ren vs Rey part III.'
-    ]
+  [
+    'id'    => 1,
+    'title' => 'Functional Programming Rocks',
+    'text'  => 'fp is amazing.',
+  ],
+  [
+    'id'    => 2,
+    'title' => 'Cannot wait for Star Wars Ep9',
+    'text'  => 'Kylo Ren vs Rey part III.',
+  ],
 ];
 
 const ERROR = [
-    'code' => 404,
-    'error' => 'Resource Not Found'
+  'code'  => 404,
+  'error' => 'Resource Not Found',
 ];
 
-const matchFn = 'FunctionalPHP\\PatternMatching\\match';
-
-function resolvePath(string $path) : string
+function router(string $path): string
 {
-    $result = A\compose(
-        A\partialLeft('explode', '/'),
-        A\partialLeft(
-            matchFn,
-            [
-                '["post", id]' => function (string $id) {
-                    $res = A\compose(
-                        A\partialLeft(A\filter, function (array $post) use ($id) { return A\pluck($post, 'id') == (int) $id; }),
-                        A\head
-                    );
+  $routeTo = f\compose(
+		f\partial('explode', '/'),
+		f\partial(p\patternMatch, [
+			'["post", id]' => function (string $id) {
+			  $intval = (int) $id;
 
-                    return $res(POSTS);
-                },
-                '["posts"]' => function () { return A\identity(POSTS); },
-                '_' => function () { return A\identity(ERROR); }
-            ] 
-        ),
-        'json_encode'
-    );
+			  return isset(POSTS[$intval]) ?
+					f\addKeys(POSTS, $intval)  :
+					[
+						'code'  => 404,
+						'error' => 'Not found',
+					];
+			},
+			'["posts"]' => fn () => POSTS,
+			'_'         => fn () => [
+				'code'  => 400,
+				'error' => 'Bad Request',
+			],
+		]),
+		f\partialRight('json_encode', JSON_PRETTY_PRINT)
+	);
 
-    return $result($path);
+  return $routeTo($path);
 }
 
-echo resolvePath('posts');
+echo router('posts');
