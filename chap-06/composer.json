@@ -1,6 +1,7 @@
 {
-    "require": {
-        "chemem/bingo-functional": "~1",
-        "widmogrod/php-functional": "~5"
-    }
+  "require": {
+    "ext-parallel": "~1",
+    "chemem/bingo-functional": "~1",
+    "php-amqplib/php-amqplib": "~2"
+  }
 }
