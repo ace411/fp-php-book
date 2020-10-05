@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Project;
 
 use \Chemem\Bingo\Functional\{
-  Algorithms as f, 
+  Algorithms as f,
   Functors\Monads\IO,
   Functors\Monads as m
 };
@@ -28,7 +28,7 @@ function writeRegistry(callable $action): IO
   $write = f\partialRight(
 		IO\writeFile,
 		m\bind(
-      fn (array $contents) => IO\IO(fn () => $action($contents)), 
+      fn (array $contents) => IO\IO(fn () => $action($contents)),
       readRegistry()
     )->exec()
 	);
