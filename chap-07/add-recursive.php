@@ -1,18 +1,16 @@
 <?php
 
-require __DIR__ . '/vendor/autoload.php';
+function addRecursive(
+  int $num,
+  int $count = 0,
+  array $acc = [],
+  bool $continue = true
+): array {
+  if (!$continue) {
+    return $acc;
+  }
 
-use function Chemem\Bingo\Functional\Algorithms\trampoline;
+  $acc[] = $count + $num;
 
-function addRecursive(int $num, int $count = 0, array $acc = [], bool $continue = true) : array
-{
-    if (!$continue) {
-        return $acc;
-    }
-
-    $acc[] = $count + $num;
-
-    return addRecursive($num, $count + 1, $acc, $count < $num);
+  return addRecursive($num, $count + 1, $acc, $count < $num);
 }
-
-$add = trampoline('addRecursive');

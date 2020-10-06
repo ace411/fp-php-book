@@ -2,5 +2,5 @@
 
 function head(array $numbers)
 {
-    return $numbers[0];
+  return $numbers[0];
 }

@@ -2,39 +2,44 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-use Tries\Trie;
-use Chemem\Bingo\Functional\Functors\Monads\IO;
-use Chemem\Bingo\Functional\Functors\Monads as M;
-use function Chemem\Bingo\Functional\Algorithms\partialRight;
-use function Chemem\Bingo\Functional\Algorithms\compose;
-use function Chemem\Bingo\Functional\Algorithms\partial;
+use Chemem\Bingo\Functional\{
+  Functors\Monads as m,
+  Functors\Monads\IO,
+  Algorithms as f
+};
 
-function createTrie(array $json, int $init = 0) : Trie
-{
-    $trie = new Trie;
-    $valCount = count($json);
-
-    $add = function (int $init = 0) use (&$add, $json, $valCount, $trie) {
-        if ($init >= $valCount) {
-            return $trie;
-        }
-
-        $trie->add($json[$init]['char_name'], $json[$init]);
-        return $add($init + 1);
-    };
-    return $add();
+if (!extension_loaded('php_trie')) {
+  exit();
 }
 
-function searchTrie(string $entry) : IO
+function modifyKey(string $key): string
 {
-    $result = M\mcompose(function (string $contents) use ($entry) {
-        $res = compose(partialRight('json_decode', true), 'createTrie', function ($trie) use ($entry) {
-            return $trie->search($entry);
-        });
-        return IO\IO($res($contents));
-    }, IO\readFile);
+  $modify = f\compose('strtolower', f\partial('str_replace', ' ', '-'));
 
-    return $result(IO\IO(__DIR__ . '/starwars_characters.json'));
+  return $modify($key);
 }
 
-print_r(searchTrie('Luke')->exec());
+function searchTrie(array $contents): IO
+{
+  $res = f\fold(function (HatTrie $trie, array $val): HatTrie {
+    $trie[modifyKey($val['char_name'])] = $val['char_affiliation'];
+
+    return $trie;
+  }, $contents, new HatTrie);
+
+  return IO\IO(fn () => $res);
+}
+
+$res = m\mcompose(
+  fn ($data)          => (
+    m\bind(fn ($trie) => (
+      IO\IO(fn ()     => $trie->prefixSearch('l')->toArray())
+    ), searchTrie(\json_decode($data, true)))
+  ),
+  IO\readFile
+);
+
+var_dump(
+  $res(IO\IO(fn () => __DIR__ . '/starwars_characters.json'))
+    ->exec()
+);

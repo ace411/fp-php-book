@@ -1,18 +1,18 @@
 [
-    {
-        "name": "Sheridan",
-        "phone": "+256 725523656"
-    },
-    {
-        "name": "Alex",
-        "phone": "+256 786321421"
-    },
-    {
-        "name": "Jeffrey",
-        "phone": "+256 758789845"
-    },
-    {
-        "name": "Michael",
-        "phone": "+256 897812212"
-    }
+  {
+    "name": "Sheridan",
+    "phone": "+256 725523656"
+  },
+  {
+    "name": "Alex",
+    "phone": "+256 786321421"
+  },
+  {
+    "name": "Jeffrey",
+    "phone": "+256 758789845"
+  },
+  {
+    "name": "Michael",
+    "phone": "+256 897812212"
+  }
 ]

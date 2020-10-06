@@ -1,12 +1,7 @@
 {
-    "require": {
-        "php-amqplib/php-amqplib": "~2.6",
-        "chemem/bingo-functional": "~1"
-    },
-    "config": {
-        "process-timeout": 0
-    },
-    "scripts": {
-        "worker": "@php rabbitmq-worker.php"
-    }
+  "require": {
+    "ext-parallel": "~1",
+    "chemem/bingo-functional": "~1",
+    "php-amqplib/php-amqplib": "~2"
+  }
 }

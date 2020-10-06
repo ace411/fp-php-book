@@ -1,52 +1,49 @@
 <?php
 
-require 'fibonacci.php';
+require __DIR__ . '/fibGenerate.php';
 
-class ExecFunc extends Thread {
-    private $method;
+class ExecFunc extends Thread
+{
+  private \Closure $method;
 
-    private $params;
+  private $params;
 
-    private $result;
+  private $result;
 
-    private $joined;
+  private $joined;
 
-    public function __construct(callable $func, ...$params)
-    {
-        $this->method = $func;
-        $this->params = $params;
-        $this->result = null;
-        $this->joined = false;
+  public function __construct(callable $func, ...$params)
+  {
+    $this->method = $func;
+    $this->params = $params;
+    $this->result = null;
+    $this->joined = false;
+  }
+
+  public function run()
+  {
+    $this->result = ($this->method)(...$this->params);
+  }
+
+  public static function call(callable $func, ...$params)
+  {
+    $thread = new static($func, ...$params);
+    if ($thread->start()) {
+      return $thread;
+    }
+  }
+
+  public function __toString()
+  {
+    if (!$this->joined) {
+      $this->joined = true;
+      $this->join();
     }
 
-    public function run()
-    {
-        $this->result = ($this->method)(...$this->params);
-    }
-
-    public static function call(callable $func, ...$params)
-    {
-        $thread = new static($func, ...$params);
-        if ($thread->start()) {
-            return $thread;
-        }
-    }
-
-    public function __toString()
-    {
-        if (!$this->joined) {
-            $this->joined = true;
-            $this->join();
-        }
-
-        return $this->result;
-    }
+    return $this->result;
+  }
 };
 
-$rangeA = ExecFunc::call(fibGenerate, 1, 10);
+$a = ExecFunc::call('fibGenerate', 1, 10);
 
-$rangeB = ExecFunc::call(fibGenerate, 11, 20);
-
-printf('%s', 'Range 1-10: ' . $rangeA . \PHP_EOL);
-
-printf('%s', 'Range 11-20: ' . $rangeB . \PHP_EOL);
+$b = ExecFunc::call('fibGenerate', 11, 20);

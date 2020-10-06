@@ -1,9 +1,9 @@
 <?php
 
-$addTen = function ($val) {
-    return is_int($val) ? 
-        $val + 10 : 
-        trigger_error('Non-numeric value encountered', E_USER_WARNING); 
-};
+$addTen = fn ($val) => (
+  is_int($val) ?
+    $val + 10 :
+    trigger_error('Non-numeric value encountered', E_USER_WARNING)
+);
 
-var_dump($addTen('foo'), $addTen(12));
+var_dump($addTen('foo'));

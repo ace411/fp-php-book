@@ -1,15 +1,16 @@
 {
-    "require": {
-        "chemem/bingo-functional": "dev-master"
+  "require": {
+    "chemem/bingo-functional": "~1",
+    "mmarica/display-table": "~1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Project\\": "src/"
     },
-    "autoload": {
-        "psr-4": {
-            "Project\\": "src/"
-        },
-        "files": [
-            "src/constants.php",
-            "src/patterns.php",
-            "src/actions.php"
-        ]
-    }
+    "files": [
+      "src/constants.php",
+      "src/patterns.php",
+      "src/actions.php"
+    ]
+  }
 }

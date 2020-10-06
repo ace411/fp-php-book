@@ -1,7 +1,5 @@
 <?php
 
-$subtract = function (int $x, int $y) : int {
-    return $x - $y;
-};
+$subtract = fn (int $x, int $y): int => $x - $y;
 
 $subtract(3, 2);

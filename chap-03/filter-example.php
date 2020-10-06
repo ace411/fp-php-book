@@ -6,6 +6,6 @@ require __DIR__ . '/state.php';
 
 use function Chemem\Bingo\Functional\Algorithms\filter;
 
-$result = filter(evenFilter, NUMBERS);
+$result = filter('evenFilter', NUMBERS);
 
 print_r($result);

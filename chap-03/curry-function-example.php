@@ -4,35 +4,35 @@ require __DIR__ . '/vendor/autoload.php';
 
 use function Chemem\Bingo\Functional\Algorithms\{compose, curry};
 
-const wordSplit = 'wordSplit';
-
 function wordSplit(string $text) : array
 {
-    return str_split($text, 1);
+  return str_split($text, 1);
 }
-
-const replaceSpaces = 'replaceSpaces';
 
 function replaceSpaces(string $text) : string
 {
-    return str_replace(' ', '_', $text);    
+  return str_replace(' ', '_', $text);
 }
-
-const arrToString = 'arrToString';
 
 function arrToString(array $strings) : string
 {
-    return implode('_', $strings);
+  return implode('_', $strings);
 }
 
-$curried = curry(function (string $txt, string $mTxt) : string {
-    $splitTxt = compose(wordSplit, arrToString)($txt);
+$func = function (string $text, string $moreText) : string {
+  $composite = compose(
+    'wordsplit',
+    'arrToString',
+    fn (string $txt): string => $txt . replaceSpaces($moreText),
+  );
 
-    return $splitTxt . replaceSpaces($mTxt);
-});
+  return $composite($text);
+};
 
-$first = $curried('more');
+$curryied = curry($func);
 
-$final = $first('functional programming');
+$first    = $curryied('more');
+
+$final    = $first('functional programming');
 
 echo $final;
