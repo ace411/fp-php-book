@@ -2,10 +2,10 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-use Chemem\Bingo\Functional\{
-  Functors\Monads as m,
-  Functors\Monads\IO,
-  Algorithms as f
+use Chemem\Bingo\{
+  Functional\Functors\Monads as m,
+  Functional\Functors\Monads\IO,
+  Functional as f
 };
 
 if (!extension_loaded('php_trie')) {

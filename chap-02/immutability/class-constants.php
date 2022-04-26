@@ -6,5 +6,5 @@ class Configure
 
   private const EMAIL = 'lochbm@gmail.com';
 
-  //...constructor and other methods
+  // ...constructor and other methods
 }

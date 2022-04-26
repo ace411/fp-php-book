@@ -2,4 +2,4 @@
 
 $subtract = fn (int $x, int $y): int => $x - $y;
 
-$subtract(3, 2);
+echo $subtract(3, 2);
