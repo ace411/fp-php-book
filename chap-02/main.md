@@ -4,32 +4,32 @@ Refer to the second chapter titled _Functional Programming Core Concepts_.
 
 ## Chapter contents
 
-- **Functions**
+- Functions
 
-- **Functional Programming and Object-Oriented Programming**
+- Functional Programming and Object-Oriented Programming
 
-- **Pure Functions**
+- Pure Functions
 
-  - **Side-causes and side-effects**
+  - Side-causes and side-effects
 
-  - **Dealing with side-effects and side-causes**
+  - Dealing with side-effects and side-causes
 
-  - **A Brief Note About Type Signatures**
+  - A Brief Note About Type Signatures
 
-- **Immutability**
+- Immutability
 
-  - **Constants in PHP**
+  - Constants in PHP
 
-  - **Immutable lists**
+  - Immutable lists
 
-  - **Tries**
+  - Tries
 
-  - **Value Objects**
+  - Value Objects
 
-  - **Temporal Coupling**
+  - Temporal Coupling
 
-- **Transient Mutation**
+- Transient Mutation
 
-- **Referential Transparency**
+- Referential Transparency
 
-  - **REPL Environments for Functional Programming**
+- REPL Environments for Functional Programming

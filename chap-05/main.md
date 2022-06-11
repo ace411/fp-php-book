@@ -4,30 +4,30 @@ Refer to the fifth chapter, Functors.
 
 ## Chapter Contents
 
-- **A Crashcourse in Category Theory**
+- A Crashcourse in Category Theory
 
-  - **Defining Category Theory**
+  - Defining Category Theory
 
-  - **What About Functors**
+  - What About Functors?
 
-- **Functors in Programming**
+- Functors in Programming
 
-  - **Functors are Type Classes**
+  - Functors are Type Classes
 
-  - **Functor Properties**
+  - Functor Properties
 
-- **Monads**
+- Monads
 
-- **Practical Monads**
+- Practical Monads
 
-  - **Monad Functions**
+  - Monad Functions
 
-  - **The IO Monad**
+  - The IO Monad
 
-  - **The Reader Monad**
+  - The Reader Monad
 
-  - **The State Monad**
+  - The State Monad
 
-  - **The Writer Monad**
+  - The Writer Monad
 
-  - **The List Monad**
+  - The List Monad

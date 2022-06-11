@@ -4,20 +4,20 @@ Refer to the fourth chapter, Error Handling in Functional Programming.
 
 ## Chapter Contents
 
-- **Exceptions are Impure**
+- Exceptions are Impure
 
-- **Working Without Exceptions**
+- Working Without Exceptions
 
-  - **Callbacks**
+  - Callbacks
 
-  - **PHP Error Messages**
+  - PHP Error Messages
 
-  - **Default Values**
+  - Default Values
 
-  - **Sum and Union Types**
+  - Sum and Union Types
 
-  - **The Maybe Monad**
+  - The Maybe Monad
 
-  - **The Either Monad**
+  - The Either Monad
 
-  - **The Railway Pattern**
+  - The Railway Pattern

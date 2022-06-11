@@ -1,7 +1,6 @@
 {
   "require": {
-    "ext-parallel": "~1",
-    "chemem/bingo-functional": "~1",
-    "php-amqplib/php-amqplib": "~2"
+    "chemem/bingo-functional": "*",
+    "php-amqplib/php-amqplib": "*"
   }
 }

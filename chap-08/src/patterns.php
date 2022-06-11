@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Project;
 
-use \Chemem\Bingo\Functional\{
-  Algorithms as f,
-  Functors\Monads\IO,
-  Functors\Monads as m,
-  PatternMatching as p
+use \Chemem\Bingo\{
+  Functional as f,
+  Functional\Functors\Monads\IO,
+  Functional\Functors\Monads as m,
+  Functional\PatternMatching as p
 };
 
 const toAction = __NAMESPACE__ . '\\toAction';

@@ -4,8 +4,8 @@ Refer to the seventh chapter, Recursion, Pattern Matching and Property Testing.
 
 ## Chapter Contents
 
-- **Recursion**
+- Recursion
 
-- **Pattern Matching**
+- Pattern Matching
 
-- **Property Testing**
+- Property Testing

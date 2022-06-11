@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Project;
 
-use \Chemem\Bingo\Functional\{
-  Algorithms as f,
-  Functors\Monads\IO,
-  Functors\Monads as m
+use \Chemem\Bingo\{
+  Functional as f,
+  Functional\Functors\Monads\IO,
+  Functional\Functors\Monads as m
 };
 
 const writeRegistry = __NAMESPACE__ . '\\writeRegistry';

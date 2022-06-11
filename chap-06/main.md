@@ -4,16 +4,16 @@ Refer to the sixth chapter, Parallelization of Tasks in PHP.
 
 ## Chapter Contents
 
-- **PHP's Capabilities**
+- PHP's Capabilities
 
-- **Threading in PHP**
+- Threading in PHP
 
-  - **The pthreads extension**
+  - The pthreads extension
 
-  - **parallel is a Better Threading Option**
+  - parallel is a Better Threading Option
 
-- **Multiprocessing in PHP**
+- Multiprocessing in PHP
 
-  - **The PCNTL extension**
+  - The PCNTL extension
 
-- **Message Brokers**
+- Message Brokers
