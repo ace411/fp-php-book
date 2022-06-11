@@ -4,18 +4,18 @@ Refer to the pilot chapter, Introduction to Functional Programming in PHP.
 
 ## Chapter Contents
 
-- **A brief history of PHP**
+- A brief history of PHP
 
-- **A Brief History of Functional Programming**
+- A Brief History of Functional Programming
 
-- **Defining Functional Programming**
+- Defining Functional Programming
 
-- **Functional Programming is a Declarative Paradigm**
+- Functional Programming is a Declarative Paradigm
 
-- **The Benefits of Functional Programming**
+- The Benefits of Functional Programming
 
-- **Relevance to a PHP Developer**
+- Relevance to a PHP Developer
 
-- **Functional Programming in Other Contexts**
+- Functional Programming in Other Contexts
 
-  - **PHP is Getting Better**
+  - PHP is Getting Better
